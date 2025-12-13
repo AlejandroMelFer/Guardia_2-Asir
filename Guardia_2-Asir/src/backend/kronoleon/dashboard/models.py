@@ -1,7 +1,5 @@
 from django.db import models
 
-from django.db import models
-
 class Profesor(models.Model):
     id_profesor = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=45)
