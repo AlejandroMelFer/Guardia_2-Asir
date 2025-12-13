@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="iconopagina.png" type="image">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <title>Kronoleon - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .dark body {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e3a8a;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background: white;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 50;
+        }
+
+        .dark header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav a {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav a.active {
+            background: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .dark .nav a.active {
+            background: #1e40af;
+            color: #bfdbfe;
+        }
+
+        .main {
+            padding-top: 64px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 1rem 2rem 1rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #3b82f6;
+        }
+
+        .bg-amber {
+            background: #2563eb;
+        }
+
+        .bg-green {
+            background: #1e40af;
+        }
+
+        .bg-purple {
+            background: #1e3a8a;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(45deg, #3b82f6, #6366f1);
+            color: #fff;
+        }
+
+        .btn-add:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-cancel {
+            border: 1px solid #f87171;
+            color: #1e3a8a;
+        }
+
+        .btn-cancel:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-accept {
+            background: #1e3a8a;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            margin-left: 0.25rem;
+            margin-bottom: 0.50rem;
+            transition: all 0.2s;
+        }
+
+        .btn-accept:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            margin-left: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .btn-reject:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background: #fff;
+            color: #1e293b;
+            margin-top: 0.25rem;
+        }
+
+        .dark input,
+        .dark select,
+        .dark textarea {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #f1f5f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .dark th,
+        .dark td {
+            border: 1px solid #475569;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
+
+        .logo {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        #profile-name {
+            margin-bottom: 0.50rem;
+        }
+
+        #profile-email {
+            margin-bottom: 0.50rem;
+        }
+
+        #profile-rol {
+            margin-bottom: 0.50rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- APP -->
+    <div id="app">
+
+        <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <!-- <div> <img src="iconopagina.png" alt="Kronoleon" width="70" height="70"></div> -->
+                <div class="logo">Kronoleon</div>
+            </div>
+
+            <nav class="nav">
+                <a href="#" data-page="home">Inicio</a>
+                <a href="#" data-page="guards" class="active">Guardias</a> <!-- Default active for this view -->
+                <a href="#" data-page="agenda">Agenda</a>
+                <a href="#" data-page="profile">Perfil</a>
+            </nav>
+            <button id="theme-toggle">🌙</button>
+        </header>
+        <main class="main">
+
+            <!-- HOME -->
+            <div id="home" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Resumen</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GUARDS -->
+            <div id="guards" class="page active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Listado de guardias</h2>
+                    </div>
+                    <table id="guards-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Aula</th>
+                                <th>Asignatura</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for clase in datos %}
+                            <tr>
+                                <td>{{ clase.fecha|date:"Y-m-d" }}</td>
+                                <td>{{ clase.hora.hora_inicio|time:"H:i" }} - {{ clase.hora.hora_fin|time:"H:i" }}</td>
+                                <td>{{ clase.aula.nombre }}</td>
+                                <td>{{ clase.asignatura.nombre }}</td>
+                                <td>Active</td> <!-- Placeholder -->
+                                <td></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No hay clases registradas.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AGENDA -->
+            <div id="agenda" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Mi agenda</h2>
+                    </div>
+                    <!-- Reuse content for Agenda or implement similarly if needed -->
+                    <p>Funcionalidad de agenda en desarrollo.</p>
+                </div>
+            </div>
+
+            <!-- PROFILE -->
+            <div id="profile" class="page">
+                <div class="card flex-col items-center">
+                    <div class="profile-pic" id="profile-pic" title="Haz clic para cambiar">👤</div>
+                    <div id="profile-name">Nombre: {{ user.username }}</div>
+                    <div id="profile-email">Email: {{ user.email }}</div>
+                    <div id="profile-role"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // === LOGIN STATE (Managed by Django Auth) ===
+        // We assume user is logged in as 'Profesor' for this dashboard view
+
+        // === NAVIGATION ===
+        function initNavigation() {
+            document.querySelectorAll('.nav a').forEach(a => {
+                a.addEventListener('click', e => {
+                    e.preventDefault();
+                    const page = a.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(page).classList.add('active');
+                    document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+                    a.classList.add('active');
+                });
+            });
+
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+            });
+        }
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', () => {
+            initNavigation();
+        });
+
+    </script>
+</body>
+
+</html>
