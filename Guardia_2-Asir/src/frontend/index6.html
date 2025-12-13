@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="iconopagina.png" type="image">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+    <title>Kronoleon</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .dark body {
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: all 0.2s;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e3a8a;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1rem;
+            background: white;
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #e2e8f0;
+            z-index: 50;
+        }
+
+        .dark header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav a {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-weight: 500;
+            transition: background 0.2s, color 0.2s;
+        }
+
+        .nav a.active {
+            background: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .dark .nav a.active {
+            background: #1e40af;
+            color: #bfdbfe;
+        }
+
+        .main {
+            padding-top: 64px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 1rem 2rem 1rem;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .card {
+            background: #1e293b;
+            border: 1px solid #334155;
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+        }
+
+        .card-header h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .stat {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .stat:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            color: #fff;
+        }
+
+        .bg-blue {
+            background: #3b82f6;
+        }
+
+        .bg-amber {
+            background: #2563eb;
+        }
+
+        .bg-green {
+            background: #1e40af;
+        }
+
+        .bg-purple {
+            background: #1e3a8a;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(45deg, #3b82f6, #6366f1);
+            color: #fff;
+        }
+
+        .btn-add:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-cancel {
+            border: 1px solid #f87171;
+            color: #1e3a8a;
+        }
+
+        .btn-cancel:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-accept {
+            background: #1e3a8a;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            margin-left: 0.25rem;
+            margin-bottom: 0.50rem;
+            transition: all 0.2s;
+        }
+
+        .btn-accept:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        .btn-reject {
+            background: #ef4444;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.5rem;
+            margin-left: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .btn-reject:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            background: #fff;
+            color: #1e293b;
+            margin-top: 0.25rem;
+        }
+
+        .dark input,
+        .dark select,
+        .dark textarea {
+            background: #334155;
+            border: 1px solid #475569;
+            color: #f1f5f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th,
+        td {
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        .dark th,
+        .dark td {
+            border: 1px solid #475569;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.05);
+        }
+
+        .login-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 3rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6;
+            /* azul llamativo */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        #profile-name {
+            margin-bottom: 0.50rem;
+        }
+
+        #profile-email {
+            margin-bottom: 0.50rem;
+        }
+
+        #profile-rol {
+            margin-bottom: 0.50rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+    <div class="login-card" id="login-card">
+        <h2>Iniciar sesión</h2>
+        <h2>ㅤㅤ</h2>
+        <label>¿Eres profesor/a o admin?</label>
+        <select id="role-select">
+            <option value="admin">Administrador</option>
+            <option value="profesor">Profesor/a</option>
+        </select>
+        <div id="professor-login" style="display:none;margin-top:2rem;">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="Email">
+            <label>Contraseña:</label>
+            <input type="password" id="password" placeholder="Contraseña">
+        </div>
+        <button id="login-btn" style="margin-top:1rem;">Entrar</button>
+    </div>
+
+    <!-- APP -->
+    <div id="app" style="display:none;">
+
+        <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div> <img src="iconopagina.png" alt="Kronoleon" width="70" height="70"></div>
+                <div class="logo">Kronoleon</div>
+            </div>
+
+            <nav class="nav">
+                <a href="#" data-page="home" class="active">Inicio</a>
+                <a href="#" data-page="guards">Guardias</a>
+                <a href="#" data-page="agenda">Agenda</a>
+                <a href="#" data-page="profile">Perfil</a>
+            </nav>
+            <button id="theme-toggle">🌙</button>
+        </header>
+        <main class="main">
+
+            <!-- HOME -->
+            <div id="home" class="page active">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Resumen de hoy</h2>
+                    </div>
+                    <div class="grid-4" id="day-summary"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Horario de hoy</h2>
+                    </div>
+                    <div id="today-schedule"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Acciones rápidas</h2>
+                    </div>
+                    <div id="quick-actions"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Próximas guardias</h2>
+                    </div>
+                    <div id="upcoming-guards"></div>
+                </div>
+            </div>
+
+            <!-- GUARDS -->
+            <div id="guards" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Listado de guardias</h2>
+                    </div>
+                    <table id="guards-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Aula</th>
+                                <th>Profesor</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AGENDA -->
+            <div id="agenda" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Mi agenda</h2>
+                    </div>
+                    <table id="agenda-table">
+                        <thead>
+                            <tr>
+                                <th>Día</th>
+                                <th>08:00-09:00</th>
+                                <th>09:00-10:00</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PROFILE -->
+            <div id="profile" class="page">
+                <div class="card flex-col items-center">
+                    <div class="profile-pic" id="profile-pic" title="Haz clic para cambiar">👤</div>
+                    <div id="profile-name"></div>
+                    <div id="profile-email"></div>
+                    <div id="profile-role"></div>
+                    <input type="file" id="profile-upload" style="display:none;" accept="image/*">
+                </div>
+            </div>
+
+            <!-- TEACHERS (ADMIN) -->
+            <div id="teachers" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Profesores</h2>
+                    </div>
+                    <button class="btn btn-add" id="add-teacher-btn">Añadir Profesor</button>
+                    <table id="teachers-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Horario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // === DATOS ===
+        let teachers = [
+            { id: 1, name: "Juan Pérez", email: "juan.perez@example.com", password: "1234", schedule: [] },
+            { id: 2, name: "María López", email: "maria.lopez@example.com", password: "abcd", schedule: [] },
+            { id: 3, name: "Esther Muñoz Martínez", email: "ester.muñoz@gmail.com", password: "1234", schedule: [] },
+        ];
+
+        let guards = [
+            { id: 1, date: "2025-12-13", time_slot: "08:00-09:00", location: "1", subject: "Matemáticas", teacherId: 1, status: "pending" },
+            { id: 2, date: "2025-12-13", time_slot: "09:00-10:00", location: "2", subject: "Física", teacherId: 2, status: "accepted" },
+            { id: 3, date: "2025-12-13", time_slot: "10:00-11:00", location: "3", subject: "Historia", teacherId: 1, status: "pending" }
+        ];
+
+        let user;
+
+        // === LOGIN ===
+        const loginBtn = document.getElementById('login-btn');
+        const roleSelect = document.getElementById('role-select');
+        const professorLogin = document.getElementById('professor-login');
+        roleSelect.addEventListener('change', () => {
+            professorLogin.style.display = roleSelect.value === 'profesor' ? 'block' : 'none';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            if (roleSelect.value === 'admin') {
+                user = { name: "Admin", email: "admin@example.com", role: "Admin" };
+            } else {
+                const email = document.getElementById('email').value;
+                const pass = document.getElementById('password').value;
+                const prof = teachers.find(t => t.email === email && t.password === pass);
+                if (!prof) { alert("Email o contraseña incorrectos"); return; }
+                user = { name: prof.name, email: prof.email, role: "Profesor" };
+            }
+            document.getElementById('login-card').style.display = 'none';
+            document.getElementById('app').style.display = 'block';
+            initApp();
+        });
+
+        // === INIT APP ===
+        function initApp() {
+            initNavigation();
+            renderHome();
+            renderProfile();
+            renderGuards();
+            renderAgenda();
+        }
+
+        // === NAVIGATION ===
+        function initNavigation() {
+            if (user.role === "Admin") document.querySelector('.nav').innerHTML += `<a href="#" data-page="teachers">Profesores</a>`;
+            document.querySelectorAll('.nav a').forEach(a => {
+                a.addEventListener('click', e => {
+                    e.preventDefault();
+                    const page = a.dataset.page;
+                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                    document.getElementById(page).classList.add('active');
+                    document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+                    a.classList.add('active');
+                    if (page === "teachers") renderTeachers();
+                    if (page === "guards") renderGuards();
+                    if (page === "agenda") renderAgenda();
+                });
+            });
+
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
+            });
+        }
+
+        // === RENDER HOME (profesor/admin) ===
+        function renderHome() {
+            const home = document.getElementById('home');
+            const daySummary = document.getElementById('day-summary');
+            const quickActions = document.getElementById('quick-actions');
+            const upcoming = document.getElementById('upcoming-guards');
+            daySummary.innerHTML = ''; quickActions.innerHTML = ''; upcoming.innerHTML = '';
+
+            const todayStr = "2025-12-13";
+
+            if (user.role === "Profesor") {
+                // Home del profesor (antiguo)
+                let todayGuards = guards.filter(g => g.date === todayStr && g.teacherId === teachers.find(t => t.email === user.email)?.id);
+                const pending = todayGuards.filter(g => g.status === 'pending').length;
+                const accepted = todayGuards.filter(g => g.status === 'accepted').length;
+
+                const stats = [
+                    { label: 'Guardias hoy', value: todayGuards.length, icon: '', className: 'bg-blue' },
+                    { label: 'Pendientes', value: pending, icon: '', className: 'bg-amber' },
+                    { label: 'Aceptadas', value: accepted, icon: '', className: 'bg-green' }
+                ];
+
+                stats.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'stat';
+                    div.innerHTML = `<div class="stat-icon ${s.className}">${s.icon}</div><p>${s.value}</p><p>${s.label}</p>`;
+                    daySummary.appendChild(div);
+                });
+
+                // Acciones rápidas del profesor
+                quickActions.innerHTML = '';
+                todayGuards.forEach(g => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between mb-1';
+                    const label = document.createElement('span');
+                    label.textContent = `${g.subject} (${g.time_slot})`;
+                    const btnAccept = document.createElement('button');
+                    btnAccept.className = 'btn-accept';
+                    btnAccept.textContent = g.status === 'accepted' ? 'Aceptada' : 'Aceptar';
+                    btnAccept.onclick = () => { g.status = 'accepted'; renderHome(); renderGuards(); };
+                    const btnReject = document.createElement('button');
+                    btnReject.className = 'btn-reject';
+                    btnReject.textContent = 'Ausente';
+                    btnReject.onclick = () => { g.status = 'absent'; renderHome(); renderGuards(); };
+                    div.appendChild(label); div.appendChild(btnAccept); div.appendChild(btnReject);
+                    quickActions.appendChild(div);
+                });
+
+                // Próximas guardias
+                todayGuards.slice(0, 5).forEach(g => {
+                    const div = document.createElement('div');
+                    div.textContent = `${g.date} | ${g.time_slot} | ${g.subject} | ${g.status}`;
+                    upcoming.appendChild(div);
+                });
+
+            } else if (user.role === "Admin") {
+                // Home del admin
+                const totalGuards = guards.length;
+                const pendingGuards = guards.filter(g => g.status === 'pending').length;
+                const acceptedGuards = guards.filter(g => g.status === 'accepted').length;
+                const totalTeachers = teachers.length;
+
+                const stats = [
+                    { label: 'Total guardias', value: totalGuards, icon: '', className: 'bg-blue' },
+                    { label: 'Pendientes', value: pendingGuards, icon: '', className: 'bg-amber' },
+                    { label: 'Aceptadas', value: acceptedGuards, icon: '', className: 'bg-green' },
+                    { label: 'Profesores', value: totalTeachers, icon: '', className: 'bg-purple' }
+                ];
+
+                stats.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'stat';
+                    div.innerHTML = `<div class="stat-icon ${s.className}">${s.icon}</div><p>${s.value}</p><p>${s.label}</p>`;
+                    daySummary.appendChild(div);
+                });
+
+                quickActions.innerHTML = `<button class="btn btn-add" onclick="alert('Añadir profesor')">Añadir profesor</button>
+        <button class="btn btn-add" onclick="alert('Asignar guardias')">Asignar guardias</button>`;
+
+                guards.slice(0, 5).forEach(g => {
+                    const t = teachers.find(t => t.id === g.teacherId);
+                    const div = document.createElement('div');
+                    div.textContent = `${g.date} | ${g.time_slot} | ${g.subject} | ${t ? t.name : '-'} | ${g.status}`;
+                    upcoming.appendChild(div);
+                });
+            }
+        }
+
+        // === RENDER PROFILE ===
+        function renderProfile() {
+            document.getElementById('profile-name').textContent = `Nombre: ${user.name}`;
+            document.getElementById('profile-email').textContent = `Email: ${user.email}`;
+            document.getElementById('profile-role').textContent = `Rol: ${user.role}`;
+        }
+
+        // PROFILE UPLOAD
+        const profilePic = document.getElementById('profile-pic');
+        const profileUpload = document.getElementById('profile-upload');
+        profilePic.addEventListener('click', () => profileUpload.click());
+        profileUpload.addEventListener('change', e => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = () => { profilePic.style.backgroundImage = `url(${reader.result})`; profilePic.textContent = ''; };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // === TEACHERS (ADMIN) ===
+        const teachersTable = document.querySelector('#teachers-table tbody');
+        document.getElementById('add-teacher-btn').addEventListener('click', () => {
+            const name = prompt("Nombre del profesor:");
+            const email = prompt("Email del profesor:");
+            const password = prompt("Contraseña:");
+            if (name && email && password) {
+                teachers.push({ id: Date.now(), name, email, password, schedule: [] });
+                renderTeachers();
+            }
+        });
+
+        function renderTeachers() {
+            teachersTable.innerHTML = '';
+            teachers.forEach(t => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${t.name}</td><td>${t.email}</td><td>${t.schedule.join(", ")}</td>
+        <td><button class="btn btn-add" onclick="editTeacher(${t.id})">Editar</button>
+        <button class="btn btn-reject" onclick="deleteTeacher(${t.id})">Eliminar</button></td>`;
+                teachersTable.appendChild(tr);
+            });
+        }
+
+        function editTeacher(id) {
+            const t = teachers.find(x => x.id === id); if (!t) return;
+            const newName = prompt("Nombre:", t.name);
+            const newEmail = prompt("Email:", t.email);
+            const newPass = prompt("Contraseña:", t.password);
+            if (newName) t.name = newName; if (newEmail) t.email = newEmail; if (newPass) t.password = newPass;
+            renderTeachers();
+        }
+
+        function deleteTeacher(id) {
+            if (confirm("¿Eliminar profesor?")) {
+                teachers = teachers.filter(t => t.id !== id);
+                guards = guards.filter(g => g.teacherId !== id);
+                renderTeachers(); renderGuards(); renderHome();
+            }
+        }
+
+        // === GUARDS TABLE ===
+        function renderGuards() {
+            const tbody = document.querySelector('#guards-table tbody');
+            tbody.innerHTML = '';
+            let visibleGuards = guards;
+            if (user.role !== "Admin") visibleGuards = guards.filter(g => g.teacherId === teachers.find(t => t.email === user.email)?.id);
+            visibleGuards.forEach(g => {
+                const t = teachers.find(t => t.id === g.teacherId);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${g.date}</td><td>${g.time_slot}</td><td>${g.location}</td><td>${t ? t.name : '-'}</td>
+        <td>${g.status}</td>${user.role === "Admin" ? `<td><button class="btn btn-add" onclick="assignGuard(${g.id})">Asignar</button></td>` : '<td></td>'}`;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Dummy assign function
+        function assignGuard(id) {
+            const g = guards.find(x => x.id === id);
+            const teacherId = prompt("ID del profesor para asignar:");
+            if (g && teacherId) { g.teacherId = parseInt(teacherId); renderGuards(); renderHome(); }
+        }
+
+        // === AGENDA ===
+        function renderAgenda() {
+            const tbody = document.querySelector('#agenda-table tbody'); tbody.innerHTML = '';
+            let myGuards = guards;
+            if (user.role !== "Admin") myGuards = guards.filter(g => g.teacherId === teachers.find(t => t.email === user.email)?.id);
+            const days = [...new Set(myGuards.map(g => g.date))];
+            days.forEach(d => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${d}</td><td>${myGuards.find(g => g.date === d && g.time_slot === "08:00-09:00")?.subject || ''}</td>
+        <td>${myGuards.find(g => g.date === d && g.time_slot === "09:00-10:00")?.subject || ''}</td>`;
+                tbody.appendChild(tr);
+            });
+        }
+    </script>
+</body>
+
+</html>
