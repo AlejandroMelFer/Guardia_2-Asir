@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="iconopagina.png" type="image">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
     <title>Kronoleon - Dashboard</title>
     <style>
@@ -39,11 +38,6 @@
             color: inherit;
         }
 
-        :root {
-            --primary: #3b82f6;
-            --primary-dark: #1e3a8a;
-        }
-
         header {
             position: fixed;
             top: 0;
@@ -65,6 +59,20 @@
             border-bottom: 1px solid #1e293b;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            font-family: 'Roboto Slab', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
         .nav {
             display: flex;
             gap: 0.5rem;
@@ -73,9 +81,6 @@
         .nav a {
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
             font-weight: 500;
             transition: background 0.2s, color 0.2s;
         }
@@ -90,8 +95,28 @@
             color: #bfdbfe;
         }
 
+        .header-right {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .btn-logout:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
         .main {
-            padding-top: 64px;
+            padding-top: 80px;
             max-width: 1200px;
             margin: 0 auto;
             padding: 5rem 1rem 2rem 1rem;
@@ -100,8 +125,8 @@
         .card {
             background: #fff;
             border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
             border: 1px solid #e2e8f0;
             transition: transform 0.2s, box-shadow 0.2s;
@@ -122,143 +147,53 @@
         }
 
         .card-header h2 {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
         .grid-4 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
         }
 
         .stat {
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 0.75rem;
             text-align: center;
             transition: transform 0.2s;
+            color: white;
         }
 
         .stat:hover {
             transform: translateY(-2px);
         }
 
-        .stat-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 0.5rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            color: #fff;
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            opacity: 0.9;
         }
 
         .bg-blue {
-            background: #3b82f6;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         }
 
         .bg-amber {
-            background: #2563eb;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
         }
 
         .bg-green {
-            background: #1e40af;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         }
 
         .bg-purple {
-            background: #1e3a8a;
-        }
-
-        .badge {
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-block;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.2s;
-            margin-top: 0.5rem;
-        }
-
-        .btn-add {
-            background: linear-gradient(45deg, #3b82f6, #6366f1);
-            color: #fff;
-        }
-
-        .btn-add:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
-        .btn-cancel {
-            border: 1px solid #f87171;
-            color: #1e3a8a;
-        }
-
-        .btn-cancel:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
-        .btn-accept {
-            background: #1e3a8a;
-            color: #fff;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            margin-left: 0.25rem;
-            margin-bottom: 0.50rem;
-            transition: all 0.2s;
-        }
-
-        .btn-accept:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
-        .btn-reject {
-            background: #ef4444;
-            color: #fff;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            margin-left: 0.25rem;
-            transition: all 0.2s;
-        }
-
-        .btn-reject:hover {
-            opacity: 0.9;
-            transform: scale(1.05);
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            background: #fff;
-            color: #1e293b;
-            margin-top: 0.25rem;
-        }
-
-        .dark input,
-        .dark select,
-        .dark textarea {
-            background: #334155;
-            border: 1px solid #475569;
-            color: #f1f5f9;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
         }
 
         table {
@@ -269,9 +204,18 @@
 
         th,
         td {
-            padding: 0.5rem;
+            padding: 0.75rem;
             border: 1px solid #cbd5e1;
             text-align: left;
+        }
+
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+
+        .dark th {
+            background: #334155;
         }
 
         .dark th,
@@ -287,33 +231,17 @@
             display: block;
         }
 
-        .flex {
-            display: flex;
-        }
-
-        .justify-between {
-            justify-content: space-between;
-        }
-
-        .flex-col {
-            flex-direction: column;
-        }
-
-        .items-center {
-            align-items: center;
-        }
-
         .profile-pic {
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background: #cbd5e1;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
             color: #fff;
-            margin-bottom: 1rem;
+            margin: 0 auto 1rem;
             cursor: pointer;
             transition: transform 0.2s;
         }
@@ -322,65 +250,143 @@
             transform: scale(1.05);
         }
 
-        .logo {
-            font-family: 'Roboto Slab', serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: #3b82f6;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            margin: 0;
+        .profile-info {
+            text-align: center;
         }
 
-        #profile-name {
-            margin-bottom: 0.50rem;
+        .profile-info>div {
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
         }
 
-        #profile-email {
-            margin-bottom: 0.50rem;
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
 
-        #profile-rol {
-            margin-bottom: 0.50rem;
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-accepted {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-absent {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 
 <body>
-    <!-- APP -->
     <div id="app">
-
-        <header style="display: flex; align-items: center; justify-content: space-between; padding: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <!-- <div> <img src="iconopagina.png" alt="Kronoleon" width="70" height="70"></div> -->
+        <header>
+            <div class="header-left">
                 <div class="logo">Kronoleon</div>
             </div>
 
             <nav class="nav">
-                <a href="#" data-page="home">Inicio</a>
-                <a href="#" data-page="guards" class="active">Guardias</a> <!-- Default active for this view -->
+                <a href="#" data-page="home" class="active">Inicio</a>
+                <a href="#" data-page="guards">Guardias</a>
                 <a href="#" data-page="agenda">Agenda</a>
                 <a href="#" data-page="profile">Perfil</a>
             </nav>
-            <button id="theme-toggle">🌙</button>
-        </header>
-        <main class="main">
 
+            <div class="header-right">
+                <button id="theme-toggle">🌙</button>
+                <form method="post" action="{% url 'logout' %}" style="margin: 0;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">Cerrar sesión</button>
+                </form>
+            </div>
+        </header>
+
+        <main class="main">
             <!-- HOME -->
-            <div id="home" class="page">
+            <div id="home" class="page active">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Resumen</h2>
+                        <h2>📊 Resumen de hoy</h2>
                     </div>
+                    <div class="grid-4">
+                        <div class="stat bg-blue">
+                            <div class="stat-value">{{ total_guardias }}</div>
+                            <div class="stat-label">Total guardias</div>
+                        </div>
+                        <div class="stat bg-amber">
+                            <div class="stat-value">{{ guardias_pendientes }}</div>
+                            <div class="stat-label">Pendientes</div>
+                        </div>
+                        <div class="stat bg-green">
+                            <div class="stat-value">{{ guardias_aceptadas }}</div>
+                            <div class="stat-label">Completadas</div>
+                        </div>
+                        <div class="stat bg-purple">
+                            <div class="stat-value">{{ guardias_hoy }}</div>
+                            <div class="stat-label">Hoy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📅 Próximas guardias</h2>
+                    </div>
+                    {% if datos %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Aula</th>
+                                <th>Asignatura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for clase in datos|slice:":5" %}
+                            <tr>
+                                <td>{{ clase.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ clase.hora.hora_inicio|time:"H:i" }} - {{ clase.hora.hora_fin|time:"H:i" }}</td>
+                                <td>{{ clase.aula.nombre }}</td>
+                                <td>{{ clase.asignatura.nombre }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No tienes guardias próximas</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
             <!-- GUARDS -->
-            <div id="guards" class="page active">
+            <div id="guards" class="page">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Listado de guardias</h2>
+                        <h2>🛡️ Listado de guardias</h2>
                     </div>
-                    <table id="guards-table">
+                    {% if datos %}
+                    <table>
                         <thead>
                             <tr>
                                 <th>Fecha</th>
@@ -388,26 +394,32 @@
                                 <th>Aula</th>
                                 <th>Asignatura</th>
                                 <th>Estado</th>
-                                <th>Acción</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for clase in datos %}
                             <tr>
-                                <td>{{ clase.fecha|date:"Y-m-d" }}</td>
+                                <td>{{ clase.fecha|date:"d/m/Y" }}</td>
                                 <td>{{ clase.hora.hora_inicio|time:"H:i" }} - {{ clase.hora.hora_fin|time:"H:i" }}</td>
                                 <td>{{ clase.aula.nombre }}</td>
                                 <td>{{ clase.asignatura.nombre }}</td>
-                                <td>Active</td> <!-- Placeholder -->
-                                <td></td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="6">No hay clases registradas.</td>
+                                <td>
+                                    {% if clase.falta_profe %}
+                                    <span class="status-badge status-absent">Ausente</span>
+                                    {% else %}
+                                    <span class="status-badge status-accepted">Activa</span>
+                                    {% endif %}
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📋</div>
+                        <p>No hay guardias asignadas</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
@@ -415,56 +427,87 @@
             <div id="agenda" class="page">
                 <div class="card">
                     <div class="card-header">
-                        <h2>Mi agenda</h2>
+                        <h2>📆 Mi agenda</h2>
                     </div>
-                    <!-- Reuse content for Agenda or implement similarly if needed -->
-                    <p>Funcionalidad de agenda en desarrollo.</p>
+                    {% if datos %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Horario</th>
+                                <th>Aula</th>
+                                <th>Asignatura</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for clase in datos %}
+                            <tr>
+                                <td>{{ clase.fecha|date:"l, d/m/Y" }}</td>
+                                <td>{{ clase.hora.hora_inicio|time:"H:i" }} - {{ clase.hora.hora_fin|time:"H:i" }}</td>
+                                <td>{{ clase.aula.nombre }}</td>
+                                <td>{{ clase.asignatura.nombre }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📅</div>
+                        <p>No hay eventos en tu agenda</p>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
             <!-- PROFILE -->
             <div id="profile" class="page">
-                <div class="card flex-col items-center">
-                    <div class="profile-pic" id="profile-pic" title="Haz clic para cambiar">👤</div>
-                    <div id="profile-name">Nombre: {{ user.username }}</div>
-                    <div id="profile-email">Email: {{ user.email }}</div>
-                    <div id="profile-role"></div>
+                <div class="card">
+                    <div class="profile-pic">👤</div>
+                    <div class="profile-info">
+                        <div><strong>Nombre:</strong> {{ user.get_full_name|default:user.username }}</div>
+                        <div><strong>Email:</strong> {{ user.email }}</div>
+                        <div><strong>Usuario:</strong> {{ user.username }}</div>
+                        {% if profesor %}
+                        <div><strong>Departamento:</strong> Profesor</div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-
         </main>
     </div>
 
     <script>
-        // === LOGIN STATE (Managed by Django Auth) ===
-        // We assume user is logged in as 'Profesor' for this dashboard view
+        // Navigation
+        document.querySelectorAll('.nav a').forEach(a => {
+            a.addEventListener('click', e => {
+                e.preventDefault();
+                const page = a.dataset.page;
 
-        // === NAVIGATION ===
-        function initNavigation() {
-            document.querySelectorAll('.nav a').forEach(a => {
-                a.addEventListener('click', e => {
-                    e.preventDefault();
-                    const page = a.dataset.page;
-                    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                    document.getElementById(page).classList.add('active');
-                    document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
-                    a.classList.add('active');
-                });
+                // Update pages
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(page).classList.add('active');
+
+                // Update nav
+                document.querySelectorAll('.nav a').forEach(n => n.classList.remove('active'));
+                a.classList.add('active');
             });
-
-            // Theme toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            themeToggle.addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                themeToggle.textContent = document.documentElement.classList.contains('dark') ? '☀️' : '🌙';
-            });
-        }
-
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', () => {
-            initNavigation();
         });
 
+        // Theme toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            themeToggle.textContent = '☀️';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
     </script>
 </body>
 
