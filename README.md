@@ -57,6 +57,10 @@ Este proyecto es desarrollado de forma colaborativa por parte del alumnado del 2
 - [@MikeSrz](https://github.com/MikeSrz)
 - [@rubenn16](https://github.com/rubenn16)
 
+## Acceso
+
+https://kronoleon.duckdns.org/
+
 ## Licencia
 
 Este proyecto se publica bajo la [Licencia Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.es).
