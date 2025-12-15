@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'GUARDIASDB',      
         'USER': 'dbadmin',              
         'PASSWORD': '#kr0n0L30N*',       
-        'HOST': '62.175.162.13',      
+        'HOST': '127.0.0.1',      
         'PORT': '3306',
     }
 }
