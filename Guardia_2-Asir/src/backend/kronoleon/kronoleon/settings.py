@@ -23,9 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%w5xftw!rzk%86ib(^&g$ow)f+h4h)9sr168y%=2zl$^2-(!$l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'kronoleon.local',
+    'kronoleon.duckdns.org',
+    '46.26.244.18',
+    'localhost',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -119,10 +126,18 @@ USE_TZ = True
 USE_L10N = True
 
 
+# CSRF Configuration for HTTPS
+CSRF_TRUSTED_ORIGINS = [
+    'https://kronoleon.local',
+    'https://kronoleon.duckdns.org',
+    'https://46.26.244.18',
+]
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
